@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
-import axios from 'axios';
 import './css/sign.css';
 import Dropdown from 'react-bootstrap/Dropdown';
 
@@ -12,7 +11,6 @@ function LoginIn() {
     const navigate = useNavigate();
     const [selectedRole, setSelectedRole] = useState("Select a role");
 
-    
     const handleDropdownSelect = (eventKey) => {
         setSelectedRole(eventKey);
     };
@@ -27,47 +25,49 @@ function LoginIn() {
 
     const formSubmit = async (event) => {
         event.preventDefault();
-        
-        try {
-            const response = await axios.get(`http://localhost:8080/api/login`, { 
-                 username
-                // password, 
-                // role: selectedRole  
-            });
+        const users = {
+            student1: { username: "Alice Johnson", password: "12345678", role: "STUDENT", name: "Alice Johnson" },
+            faculty1: { username: "Emma Clark", password: "12345678", role: "FACULTY_MEMBER", name: "Dr. Emma Clark" },
+            admin1: { username: "Samuel Green", password: "12345678", role: "ADMINISTRATOR", name: "Samuel Green" },
 
-            if (response.data) {
-                setMessage('User found! Redirecting...');
-               
-                switch (selectedRole) {
-                    case 'STUDENT':
-                        navigate('/student-dashboard');
-                        break;
-                    case 'FACULTY_MEMBER':
-                        navigate('/faculty-dashboard');
-                        break;
-                    case 'ADMINISTRATOR':
-                        navigate('/admin-dashboard');
-                        break;
-                    default:
-                        navigate('/home3'); 
-                }
+        };
+
+        let loggedInUser = null;
+
+        for (const userKey in users) {
+            const user = users[userKey];
+            if (username === user.username && password === user.password) {
+                loggedInUser = user;
+                break;
             }
-        } catch (error) {
-            if (error.response && error.response.status === 404) {
-                setMessage('User not found or incorrect role.');
-            } else {
-                setMessage('Failed to check user.');
+        }
+
+        if (loggedInUser) {
+            setMessage('Login successful! Redirecting...');
+            localStorage.setItem('userName', loggedInUser.name);
+            switch (loggedInUser.role) {
+                case 'STUDENT':
+                    navigate('/student-dashboard');
+                    break;
+                case 'FACULTY_MEMBER':
+                    navigate('/faculty-dashboard');
+                    break;
+                case 'ADMINISTRATOR':
+                    navigate('/admin-dashboard');
+                    break;
+                default:
+                    navigate('/home');
             }
+        } else {
+            setMessage('Invalid username, password, or role. Please try again.');
         }
     };
 
     return (
         <>
-            <div className='signup'>
+            <div className='form-wrapper'>
                 <form onSubmit={formSubmit}>
-                    <h1 className="textt1">Sign In</h1>
-
-                    
+                    <h1 className="textt1">Log In</h1>
                     <label className="textt1">
                         Username:
                         <input 
@@ -78,8 +78,6 @@ function LoginIn() {
                             required 
                         />
                     </label>
-
-                    
                     <label className="textt1">
                         Password:
                         <input 
@@ -90,8 +88,6 @@ function LoginIn() {
                             required 
                         />
                     </label>
-
-                   
                     <Dropdown onSelect={handleDropdownSelect}>
                         <Dropdown.Toggle variant="success" id="dropdown-basic">
                             {selectedRole}
@@ -103,15 +99,10 @@ function LoginIn() {
                         </Dropdown.Menu>
                     </Dropdown>
                     <br />
-                   
                     <button type="submit">Sign In</button>
                 </form>
-
-               
+                
                 {message && <p>{message}</p>}
-
-           
-                <p className="texttt1">New to website? <a href="/signup" className='pooo'>Register</a></p>
             </div>
         </>
     );
