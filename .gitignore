@@ -1,0 +1,86 @@
+# Target folder (Spring Boot)
+target/
+
+# Logs
+*.log
+spring.log
+
+# Temporary files
+*.swp
+*.swo
+*.DS_Store
+*.class
+*.project
+*.iml
+*.iws
+*.idea/
+
+# Maven / Gradle
+.mvn/
+**/mvnw
+**/mvnw.cmd
+**/wrapper/
+**/gradle/
+**/gradlew
+**/gradlew.bat
+**/build/
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+.pnpm-debug.log
+.pnpm-store/
+
+# Local environment files
+.env
+.env.*.local
+
+# VS Code
+.vscode/
+.history/
+
+# IDE files
+*.sublime-project
+*.sublime-workspace
+
+# IntelliJ IDEA
+*.iml
+.idea/
+
+# OS-specific files
+# macOS
+.DS_Store
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Package manager lock files
+package-lock.json
+yarn.lock
+.pnpm-lock.yaml
+
+# Build artifacts (React)
+build/
+dist/
+
+# Tests and coverage
+test/
+coverage/
+
+# Dependency directories
+**/node_modules/
+
+# Miscellaneous
+# File containing private keys
+*.key
+*.pem
+
+# JetBrains Rider
+.idea/
+*.idea/
+
+# End of file
